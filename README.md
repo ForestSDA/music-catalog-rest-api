@@ -4,7 +4,7 @@
 
 ### Запускается с папки server командой     `npm run server`
 
-### Настройки подключения к БД лежат в файле **.env**
+### Настройки подключения к БД лежат в файле `.env`
 
 ______
 
@@ -43,7 +43,7 @@ ______
 
 **/create**
 
-POST
+`POST`
 
 http://localhost:5000/api/author/create
 Запрос:
@@ -87,7 +87,7 @@ http://localhost:5000/api/author/create
 ```
 **/get**
 
-GET
+`GET`
 
 http://localhost:5000/api/author/get
 
@@ -242,7 +242,7 @@ http://localhost:5000/api/song/get?genre=Top2
 ```
 **/update**
 
-PATCH
+`PATCH`
 
 http://localhost:5000/api/author/update?id=1&name=noname&website=@telegram
 
@@ -276,7 +276,7 @@ http://localhost:5000/api/song/update?id=5&authorId=3&title=Cadillac&duration=00
 ```
 **/delete**
 
-DELETE
+`DELETE`
 
 http://localhost:5000/api/song/delete?id=5
 
