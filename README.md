@@ -1,43 +1,60 @@
 # music-catalog-rest-api
 
-Музыкальный катало на основе REST API
+## Музыкальный катало на основе **REST API**
 
-Запускается с папки server командой npm run server
+### Запускается с папки server командой **npm run server**
 
-Настройки подключения к БД лежат в файле .env
+### Настройки подключения к БД лежат в файле **.env**
 
-Основной стек:
-·	JavaScript
-·	NodeJS
-·	Express для содания API
-·	СУБД postgres
-·	ORM sequelize
+______
 
-Функции
-Программа может добавлять, получать, редактировать и удалять музыкальные композиции и их авторов. Имеется фильтрация композиций по названию, автору и жанру, а авторов по имени/названию. Так же была проведена работа над обработкой ошибок, неправильные запросы не крашат сервер, а на неверно указанные данные выдаются соответствующие сообщения.
+## Основной стек:
++   JavaScript
++ 	NodeJS
++ 	Express для содания API
++ 	СУБД postgres
++ 	ORM sequelize
 
-Запросы:
-Все Api запросы проходят через путь /api
-Песни и авторы содержатся по пути /song и /author соответственно 
-Для каждого из них есть команды:
-/create- добавить
-/get - получить
-/update - изменить
-/delete - удалить
+______
 
-Примеры:
+## Функции
+Программа может **добавлять, получать, редактировать и удалять музыкальные композиции и их авторов**. Имеется **фильтрацию композиций по названию, автору и жанру, а авторов по имени/названию**. Так же была проведена работа над обработкой ошибок, **неправильные запросы не крашат сервер, а на неверно указанные данные выдаются соответствующие сообщения**.
 
-/create
+______
+
+## Запросы:
+Все Api запросы проходят через путь **/api**
+
+Песни и авторы содержатся по пути **/song** и **/author** соответственно 
+
+**Для каждого из них есть команды:**
+
+**/create**- добавить
+
+**/get** - получить
+
+**/update** - изменить
+
+**/delete** - удалить
+
+______
+
+## Примеры:
+
+**/create**
+
 POST
 
 http://localhost:5000/api/author/create
+Запрос:
+```
 {
     "name":"noname",
     "website":"@noname"
- 
 }
-
+```
 Ответ:
+```
 {
     "id": 1,
     "name": "noname",
@@ -45,16 +62,19 @@ http://localhost:5000/api/author/create
     "updatedAt": "2022-02-26T22:22:22.222Z",
     "createdAt": "2022-02-26T22:22:22.222Z"
 }
-
+```
 http://localhost:5000/api/author/create
+Запрос:
+```
 {
     "title":"Music",
     "authorId":1,
     "duration":"00:02:53",
     "genre":"Top"
 }
-
+```
 Ответ:
+```
 {
     "id": 1,
     "title": "Music",
@@ -64,12 +84,15 @@ http://localhost:5000/api/author/create
     "updatedAt": "2022-02-26T22:22:22.222Z",
     "createdAt": "2022-02-26T22:22:22.222Z"
 }
+```
+**/get**
 
-/get
 GET
 
 http://localhost:5000/api/author/get
+
 Ответ:
+```
 [
     {
         "id": 1,
@@ -93,9 +116,11 @@ http://localhost:5000/api/author/get
   	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
-
+```
 http://localhost:5000/api/author/get?name=allname
+
 Ответ:
+```
 [
     {
         "id": 3,
@@ -105,9 +130,11 @@ http://localhost:5000/api/author/get?name=allname
   	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
-
+```
 http://localhost:5000/api/song/get
+
 Ответ:
+```
 [
     {
         "id": 1,
@@ -155,9 +182,11 @@ http://localhost:5000/api/song/get
   	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
+```
+http://localhost:5000/api/song/get?authorId=2
 
-http://localhost:5000/api/song/get?authorId=2 
 Ответ:
+```
 [
     {
         "id": 4,
@@ -169,9 +198,11 @@ http://localhost:5000/api/song/get?authorId=2
   	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
-
+```
 http://localhost:5000/api/song/get?title=Music3
+
 Ответ:
+```
 [
     {
         "id": 3,
@@ -183,9 +214,11 @@ http://localhost:5000/api/song/get?title=Music3
   	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
-
+```
 http://localhost:5000/api/song/get?genre=Top2
+
 Ответ:
+```
 [
     {
         "id": 2,
@@ -206,12 +239,15 @@ http://localhost:5000/api/song/get?genre=Top2
   	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
+```
+**/update**
 
-/update
 PATCH
 
 http://localhost:5000/api/author/update?id=1&name=noname&website=@telegram
+
 Ответ:
+```
 [
     {
         "id": 1,
@@ -221,28 +257,36 @@ http://localhost:5000/api/author/update?id=1&name=noname&website=@telegram
   	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
+```
+http://localhost:5000/api/song/update?id=5&authorId=3&title=Cadillac&duration=00:03:11&genre=Рэп
 
-http://localhost:5000/api/song/update?id=5&authorId=3&title=Рюмка водки на столе&duration=00:03:11&genre=Романтика
 Ответ:
+```
 [
     {
         "id": 5,
         "authorId": 3,
-        "title": "Рюмка водки на столе",
+        "title": "Cadillac",
         "duration": "00:03:11",
-        "genre": "Романтика",
+        "genre": "Рэп",
         "updatedAt": "2022-02-26T22:22:22.222Z",
   	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
+```
+**/delete**
 
-/delete
 DELETE
 
 http://localhost:5000/api/song/delete?id=5
-Ответ:
-"Удалил песню с id: 5"
 
-http://localhost:5000/api/author/delete?id=3
 Ответ:
+```
+"Удалил песню с id: 5"
+```
+http://localhost:5000/api/author/delete?id=3
+
+Ответ:
+```
 "Удалил автора с id: 3"
+```
