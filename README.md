@@ -156,7 +156,7 @@ http://localhost:5000/api/song/get
     }
 ]
 
-http://localhost:5000/api/song/get?authorId=2
+http://localhost:5000/api/song/get?authorId=2 
 Ответ:
 [
     {
