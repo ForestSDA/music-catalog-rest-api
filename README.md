@@ -1,6 +1,6 @@
 # music-catalog-rest-api
 
-## Музыкальный катало на основе **REST API**
+## Музыкальный каталог на основе **REST API**
 
 ### Запускается с папки server командой     `npm run server`
 
