@@ -46,6 +46,7 @@ ______
 `POST`
 
 http://localhost:5000/api/author/create
+
 Запрос:
 ```
 {
@@ -64,6 +65,7 @@ http://localhost:5000/api/author/create
 }
 ```
 http://localhost:5000/api/author/create
+
 Запрос:
 ```
 {
