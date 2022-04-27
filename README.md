@@ -11,7 +11,7 @@ ______
 ## Основной стек:
 +   JavaScript
 + 	NodeJS
-+ 	Express для содания API
++ 	Express для создания API
 + 	СУБД postgres
 + 	ORM sequelize
 
