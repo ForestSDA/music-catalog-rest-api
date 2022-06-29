@@ -64,7 +64,7 @@ http://localhost:5000/api/author/create
     "createdAt": "2022-02-26T22:22:22.222Z"
 }
 ```
-http://localhost:5000/api/author/create
+http://localhost:5000/api/song/create
 
 Запрос:
 ```
