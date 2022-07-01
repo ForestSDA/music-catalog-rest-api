@@ -1,4 +1,4 @@
-const  {Song, Author} = require('../models/models')
+const  {Song} = require('../models/models')
 const ApiError = require('../error/ApiError')
 class songController{
     async create(req,res, next) {
@@ -7,78 +7,80 @@ class songController{
             const song = await Song.create({ title, authorId, duration, genre})
             return res.json(song)
         }catch (e){
-            next(ApiError.bedRequest(e.message))
+            return next(ApiError.bedRequest(e.message))
         }
-
     }
 
-    async get(req,res) {
-        const{title, authorId, genre} = req.query
-        let songs;
-        if(title === ''){
-            return res.json('Пустое значение title')
+    async get(req,res,next) {
+        let {title, authorId, genre,limit,page,order} = req.query
+        page = page || 1
+        limit = limit || 10
+        if(limit> 100){
+            return res.json(null)
         }
-        if(title){
-            songs = await Song.findAll({where: {title}})
-            if(songs.length === 0){
-                return res.json('Не удалось найти title со значение ' + title)
-            }
-            return res.json(songs)
+        let offset = page * limit - limit
 
-        }
-        if(authorId === ''){
-            return res.json('Пустое значение authorId')
+        let filter = {}
+        if(title){
+            filter.title = title
         }
         if(authorId){
-            songs = await Song.findAll({where: {authorId}})
-            if(songs.length === 0){
-                return res.json('Не удалось найти authorId со значение ' + authorId)
-            }
-            return res.json(songs)
-
-        }
-        if(genre  === ''){
-            return res.json('Пустое значение genre')
+            filter.authorId = authorId
         }
         if(genre){
-            songs = await Song.findAll({where: {genre}})
-            if(songs.length === 0){
-                return res.json('Не удалось найти genre со значение ' + genre)
-            }
-            return res.json(songs)
-
+            filter.genre = genre
         }
 
-        function isEmpty(obj) {
-            for (let key in obj) {
-                return false;
-            }
-            return true;
+        let orderarr = []
+        if(order == 'title'){
+            orderarr.push(['title', 'ASC'])
+        }
+        if(order == 'genre'){
+            orderarr.push(['genre', 'ASC'])
+        }
+        if(order == 'duration'){
+            orderarr.push(["duration", 'DESC'])
         }
 
-        while(isEmpty(req.query)){
-            songs = await Song.findAll()
-            return res.json(songs)
+        let songs
+        try{
+            songs = await Song.findAll({where:filter,order:orderarr,limit,offset})
+        }catch(e){
+            return next(ApiError.bedRequest(e.message))
         }
-        return res.json('Неверное значение')
+
+        if(songs.length == 0){
+            return res.json('Не удалось найти песню')
+        }
+
+        return res.json(songs)
     }
 
-    async delete(req,res) {
-        const{id} = req.query
-        let del = await Song.destroy({ where: {id}})
-        if(del == 0){
-            return res.json('Не удалось удалить песню с id: ' + id)
-        }else{
-            return res.json('Удалил песню с id: ' + id)
-        }
+    async delete(req,res,next) {
+        try{
+            const{id} = req.query
 
+            let songs = await Song.findAll({where: {id}})
+            if(songs.length == 0){
+                return res.json('Не удалось найти id со значение  ' + id)
+            }
+
+            let del = await Song.destroy({ where: {id}})
+            if(del == 0){
+                return res.json('Не удалось удалить песню с id: ' + id)
+            }else{
+                return res.json('Удалил песню с id: ' + id)
+            }
+        }catch(e){
+            return next(ApiError.bedRequest(e.message))
+        }
     }
 
-    async update(req,res){
+    async update(req,res,next){
         try {
             const{id, authorId, title, duration, genre} = req.query
             let songs = await Song.findAll({where: {id}})
-            if(songs.length === 0){
+            if(songs.length == 0){
                 return res.json('Не удалось найти id со значение  ' + id)
             }
             await Song.upsert({
@@ -87,16 +89,13 @@ class songController{
                 title: title,
                 duration: duration,
                 genre: genre,
-            });
+            })
             songs = await Song.findAll({where: {id}})
             return res.json(songs)
-        }catch {
-            return res.json('Ошибка: для запроса на изменения требуются все данные элемента')
+        }catch (e){
+            return next(ApiError.bedRequest(e.message))
         }
-
     }
-
-
 }
 
 module.exports = new songController()

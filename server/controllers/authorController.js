@@ -1,69 +1,74 @@
 const {Author} = require('../models/models')
 const ApiError = require('../error/ApiError')
 class authorController{
-    async create(req,res, next) {
+    async create(req,res,next) {
 
         try {
             const {name, website} = req.body
             const author = await Author.create({name, website})
             return res.json(author)
         }catch (e){
-            next(ApiError.bedRequest(e.message))
+            return next(ApiError.bedRequest(e.message))
         }
 
     }
 
     async get(req,res) {
-        const{name} = req.query
-        let names;
-        if(name === ''){
-            return res.json('Пустое значение name')
+        let {name,limit,page,order} = req.query
+        page = page || 1
+        limit = limit || 10
+        if(limit > 100){
+            return res.json(null)
         }
+        let offset = page * limit - limit
+
+        let filter = {}
         if(name){
-            names = await Author.findAll({where: {name}})
-            if(names.length === 0){
-                return res.json('Не удалось найти name со значение ' + name)
-            }
-            return res.json(names)
-
+            filter.name = name
         }
 
-
-        function isEmpty(obj) {
-            for (let key in obj) {
-                return false;
-            }
-            return true;
+        let orderarr = []
+        if(order == 'name'){
+            orderarr.push(['name', 'ASC'])
         }
 
-        while(isEmpty(req.query)){
-            names = await Author.findAll()
-            return res.json(names)
+        let names
+        try{
+            names = await Author.findAll({where:filter,order:orderarr,limit,offset})
+        }catch(e){
+            return next(ApiError.bedRequest(e.message))
         }
-        return res.json('Неверное значение')
+
+        if(names.length == 0){
+            return res.json('Не удалось найти автора')
+        }
+        return res.json(names)
     }
 
-    async delete(req,res) {
-        const{id} = req.query
-        let del;
+    async delete(req,res,next) {
         try {
-            del = await Author.destroy({ where: {id}})
-        }catch (e){
-            return res.json('Вы не можете удалить автора пока не удалите все его песни')
-        }
+            const{id} = req.query
+            let names = await Author.findAll({where: {id}})
+            if (names.length == 0) {
+                return res.json('Не удалось найти id со значение ' + id)
+            }
 
-        if(del === 0){
-            return res.json('Не удалось удалить автора с id: ' + id)
-        }else{
-            return res.json('Удалил автора с id: ' + id)
+            let del = await Author.destroy({ where: {id}})
+            if(del == 0){
+                return res.json('Не удалось удалить автора с id: ' + id)
+            }else{
+                return res.json('Удалил автора с id: ' + id)
+            }
+        }catch(e){
+            return next(ApiError.bedRequest(e.message))
         }
-
     }
-    async update(req,res) {
+
+    async update(req,res,next) {
         try {
             const {id, name, website} = req.query
             let names = await Author.findAll({where: {id}})
-            if (names.length === 0) {
+            if (names.length == 0) {
                 return res.json('Не удалось найти id со значение ' + id)
             }
             await Author.upsert({
@@ -73,13 +78,10 @@ class authorController{
             });
             names = await Author.findAll({where: {id}})
             return res.json(names)
-        } catch {
-            return res.json('Ошибка: для запроса на изменения требуются все данные элемента')
+        } catch (e){
+            return next(ApiError.bedRequest(e.message))
         }
-
-
     }
-    }
+}
 
 module.exports = new authorController()
-
