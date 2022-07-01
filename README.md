@@ -18,7 +18,7 @@ ______
 ______
 
 ## Функции
-Программа может **добавлять, получать, редактировать и удалять музыкальные композиции и их авторов**. Имеется **фильтрацию композиций по названию, автору и жанру, а авторов по имени/названию**. Так же была проведена работа над обработкой ошибок, **неправильные запросы не крашат сервер, а на неверно указанные данные выдаются соответствующие сообщения**.
+Программа может **добавлять, получать, редактировать и удалять музыкальные композиции и их авторов**. Имеется **фильтрацию и сортировку композиций по названию, автору и жанру, а авторов по имени/названию**, умеет их сочитать между собой. Так же была проведена работа над обработкой ошибок, **неправильные запросы не крашат сервер, а на неверно указанные данные выдаются соответствующие сообщения**.
 
 ______
 
@@ -88,11 +88,10 @@ ______
     "createdAt": "2022-02-26T22:22:22.222Z"
 }
 ```
-**/get**
 
 `GET`
 
-http://localhost:5000/api/author/get
+http://localhost:5000/api/author
 
 Ответ:
 ```
@@ -120,7 +119,7 @@ http://localhost:5000/api/author/get
     }
 ]
 ```
-http://localhost:5000/api/author/get?name=allname
+http://localhost:5000/api/author?name=allname
 
 Ответ:
 ```
@@ -134,7 +133,7 @@ http://localhost:5000/api/author/get?name=allname
     }
 ]
 ```
-http://localhost:5000/api/song/get
+http://localhost:5000/api/song
 
 Ответ:
 ```
@@ -186,7 +185,7 @@ http://localhost:5000/api/song/get
     }
 ]
 ```
-http://localhost:5000/api/song/get?authorId=2
+http://localhost:5000/api/song?authorId=2
 
 Ответ:
 ```
@@ -202,7 +201,7 @@ http://localhost:5000/api/song/get?authorId=2
     }
 ]
 ```
-http://localhost:5000/api/song/get?title=Music3
+http://localhost:5000/api/song?title=Music3
 
 Ответ:
 ```
@@ -218,7 +217,7 @@ http://localhost:5000/api/song/get?title=Music3
     }
 ]
 ```
-http://localhost:5000/api/song/get?genre=Top2
+http://localhost:5000/api/song?genre=Top2
 
 Ответ:
 ```
@@ -243,11 +242,10 @@ http://localhost:5000/api/song/get?genre=Top2
     }
 ]
 ```
-**/update**
 
 `PATCH`
 
-http://localhost:5000/api/author/update?id=1&name=noname&website=@telegram
+http://localhost:5000/api/author?id=1&name=noname&website=@telegram
 
 Ответ:
 ```
@@ -261,7 +259,7 @@ http://localhost:5000/api/author/update?id=1&name=noname&website=@telegram
     }
 ]
 ```
-http://localhost:5000/api/song/update?id=5&authorId=3&title=Cadillac&duration=00:03:11&genre=Рэп
+http://localhost:5000/api/song?id=5&authorId=3&title=Cadillac&duration=00:03:11&genre=Рэп
 
 Ответ:
 ```
@@ -273,21 +271,20 @@ http://localhost:5000/api/song/update?id=5&authorId=3&title=Cadillac&duration=00
         "duration": "00:03:11",
         "genre": "Рэп",
         "updatedAt": "2022-02-26T22:22:22.222Z",
-  	"createdAt": "2022-02-26T22:22:22.222Z"
+  	    "createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
 ```
-**/delete**
 
 `DELETE`
 
-http://localhost:5000/api/song/delete?id=5
+http://localhost:5000/api/song?id=5
 
 Ответ:
 ```
 "Удалил песню с id: 5"
 ```
-http://localhost:5000/api/author/delete?id=3
+http://localhost:5000/api/author?id=3
 
 Ответ:
 ```
