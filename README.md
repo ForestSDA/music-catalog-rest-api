@@ -228,6 +228,75 @@ http://localhost:5000/api/song?genre=Top2
 ]
 ```
 
+http://localhost:5000/api/song?order=title
+
+Ответ:
+```
+[
+    {
+        "id": 3,
+        "authorId": 1,
+        "title": "abc",
+        "duration": "00:03:53",
+        "genre": "abcTop",
+        "createdAt": "2022-07-01T19:04:19.637Z",
+        "updatedAt": "2022-07-01T19:04:19.637Z"
+    },
+    {
+        "id": 2,
+        "authorId": 1,
+        "title": "vas",
+        "duration": "00:01:53",
+        "genre": "abcTop",
+        "createdAt": "2022-07-01T19:04:07.542Z",
+        "updatedAt": "2022-07-01T19:04:07.542Z"
+    },
+    {
+        "id": 1,
+        "authorId": 1,
+        "title": "zxa",
+        "duration": "00:00:53",
+        "genre": "abcTop",
+        "createdAt": "2022-07-01T19:03:58.154Z",
+        "updatedAt": "2022-07-01T19:03:58.154Z"
+    }
+]
+```
+
+http://localhost:5000/api/song?order=duration
+
+```
+[
+    {
+        "id": 3,
+        "authorId": 1,
+        "title": "abc",
+        "duration": "00:03:53",
+        "genre": "abcTop",
+        "createdAt": "2022-07-01T19:04:19.637Z",
+        "updatedAt": "2022-07-01T19:04:19.637Z"
+    },
+    {
+        "id": 2,
+        "authorId": 1,
+        "title": "vas",
+        "duration": "00:01:53",
+        "genre": "abcTop",
+        "createdAt": "2022-07-01T19:04:07.542Z",
+        "updatedAt": "2022-07-01T19:04:07.542Z"
+    },
+    {
+        "id": 1,
+        "authorId": 1,
+        "title": "zxa",
+        "duration": "00:00:53",
+        "genre": "abcTop",
+        "createdAt": "2022-07-01T19:03:58.154Z",
+        "updatedAt": "2022-07-01T19:03:58.154Z"
+    }
+]
+```
+
 `PATCH`
 
 http://localhost:5000/api/author?id=1&name=noname&website=@telegram
