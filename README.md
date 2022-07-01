@@ -164,24 +164,6 @@ http://localhost:5000/api/song
         "genre": "Top3",
         "updatedAt": "2022-02-26T22:22:22.222Z",
   	"createdAt": "2022-02-26T22:22:22.222Z"
-    },
-    {
-        "id": 4,
-        "authorId": 2,
-        "title": "Music21",
-        "duration": "00:02:21",
-        "genre": "Top1",
-        "updatedAt": "2022-02-26T22:22:22.222Z",
-  	"createdAt": "2022-02-26T22:22:22.222Z"
-    },
-    {
-        "id": 5,
-        "authorId": 3,
-        "title": "Music221",
-        "duration": "00:02:21",
-        "genre": "Top2",
-        "updatedAt": "2022-02-26T22:22:22.222Z",
-  	"createdAt": "2022-02-26T22:22:22.222Z"
     }
 ]
 ```
