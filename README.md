@@ -48,6 +48,7 @@ ______
 
 `POST`
 
+http://localhost:5000/api/author
 
 Запрос:
 ```
@@ -66,6 +67,8 @@ ______
     "createdAt": "2022-02-26T22:22:22.222Z"
 }
 ```
+
+http://localhost:5000/api/song
 
 Запрос:
 ```
