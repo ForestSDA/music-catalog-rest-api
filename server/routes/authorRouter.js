@@ -4,7 +4,7 @@ const authorController = require('../controllers/authorController')
 
 router.post('', authorController.create)
 router.get('', authorController.get)
-router.delete('', authorController.delete)
 router.patch('', authorController.update)
+router.delete('', authorController.delete)
 
 module.exports = router

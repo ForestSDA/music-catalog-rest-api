@@ -1,5 +1,6 @@
 const {Author} = require('../models/models')
 const ApiError = require('../error/ApiError')
+const {Sequelize} = require('sequelize')
 class authorController{
     async create(req,res,next) {
 
@@ -13,52 +14,29 @@ class authorController{
 
     }
 
-    async get(req,res) {
-        let {name,limit,page,order} = req.query
-        page = page || 1
-        limit = limit || 10
-        if(limit > 100){
-            return res.json(null)
-        }
-        let offset = page * limit - limit
-
-        let filter = {}
-        if(name){
-            filter.name = name
-        }
-
-        let orderarr = []
-        if(order == 'name'){
-            orderarr.push(['name', 'ASC'])
-        }
-
-        let names
+    async get(req,res,next) {
         try{
-            names = await Author.findAll({where:filter,order:orderarr,limit,offset})
-        }catch(e){
-            return next(ApiError.bedRequest(e.message))
-        }
+            let {name,limit,page,order} = req.query
+            page = page || 1
+            limit = limit || 10
+            if(limit > 100){
+                return res.json(null)
+            }
+            let offset = page * limit - limit
 
-        if(names.length == 0){
-            return res.json('Не удалось найти автора')
-        }
-        return res.json(names)
-    }
-
-    async delete(req,res,next) {
-        try {
-            const{id} = req.query
-            let names = await Author.findAll({where: {id}})
-            if (names.length == 0) {
-                return res.json('Не удалось найти id со значение ' + id)
+            let filter = {}
+            if(name){
+                filter.name = {[Sequelize.Op.iLike]:name}
+            }
+            console.log(filter)
+            let orderarr = []
+            if(order == 'name'){
+                orderarr.push(['name', 'ASC'])
             }
 
-            let del = await Author.destroy({ where: {id}})
-            if(del == 0){
-                return res.json('Не удалось удалить автора с id: ' + id)
-            }else{
-                return res.json('Удалил автора с id: ' + id)
-            }
+            let names = await Author.findAll({where:filter,order:orderarr,limit,offset})
+
+            return res.json(names)
         }catch(e){
             return next(ApiError.bedRequest(e.message))
         }
@@ -67,18 +45,31 @@ class authorController{
     async update(req,res,next) {
         try {
             const {id, name, website} = req.query
-            let names = await Author.findAll({where: {id}})
-            if (names.length == 0) {
-                return res.json('Не удалось найти id со значение ' + id)
-            }
-            await Author.upsert({
-                id: id,
+
+            await Author.update({
                 name: name,
-                website: website,
-            });
-            names = await Author.findAll({where: {id}})
+                website: website
+                },
+                { where:{id:id}}
+            )
+            let names = await Author.findAll({where: {id}})
             return res.json(names)
         } catch (e){
+            return next(ApiError.bedRequest(e.message))
+        }
+    }
+
+    async delete(req,res,next) {
+        try {
+            const {id} = req.query
+ 
+            let names = await Author.destroy({ where: {id}})
+            if(names == 0){
+                return res.json('Не удалось удалить автора с id: ' + id)
+            }else{
+                return res.json('Удалил автора с id: ' + id)
+            }
+        }catch(e){
             return next(ApiError.bedRequest(e.message))
         }
     }
