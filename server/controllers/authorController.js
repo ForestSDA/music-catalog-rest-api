@@ -13,7 +13,7 @@ class authorController{
         }
     }
 
-    async get(req,res,next) {
+    async read(req,res,next) {
         try{
             let {name, limit, page, order} = req.query
             if(limit > 100){

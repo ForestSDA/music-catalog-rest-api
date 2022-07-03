@@ -13,7 +13,7 @@ class songController{
         }
     }
 
-    async get(req,res,next) {
+    async read(req,res,next) {
         try{
             let {title, authorId, genre, limit, page, order} = req.query
             if(limit > 100){

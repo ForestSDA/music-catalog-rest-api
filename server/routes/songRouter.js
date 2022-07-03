@@ -3,7 +3,7 @@ const router = new Router()
 const songController = require('../controllers/songController')
 
 router.post('', songController.create)
-router.get('', songController.get)
+router.get('', songController.read)
 router.patch('',songController.update)
 router.delete('', songController.delete)
 
