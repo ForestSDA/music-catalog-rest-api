@@ -15,7 +15,7 @@ const Song = sequelize.define('song',{
     genre:{type: DataTypes.STRING, allowNull: false},
 })
 
-Author.hasMany(Song)
+Author.hasMany(Song,{ onDelete: 'CASCADE'})
 Song.belongsTo(Author)
 
 module.exports = {
