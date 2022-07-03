@@ -1,6 +1,7 @@
-const  {Song} = require('../models/models')
+const {Song} = require('../models/models')
 const ApiError = require('../error/ApiError')
 const {Sequelize} = require('sequelize')
+
 class songController{
     async create(req,res, next) {
         try {
@@ -14,12 +15,13 @@ class songController{
 
     async get(req,res,next) {
         try{
-            let {title, authorId, genre,limit,page,order} = req.query
-            page = page || 1
-            limit = limit || 10
-            if(limit> 100){
+            let {title, authorId, genre, limit, page, order} = req.query
+            if(limit > 100){
                 return res.json(null)
             }
+            
+            page = page || 1
+            limit = limit || 10
             let offset = page * limit - limit
 
             let filter = {}
@@ -27,11 +29,9 @@ class songController{
                 filter.authorId = authorId
             }
             if(title){
-                
                 filter.title = {[Sequelize.Op.iLike]:title}
             }
             if(genre){
-
                 filter.genre = {[Sequelize.Op.iLike]:genre}
             }
 
@@ -46,9 +46,15 @@ class songController{
                 orderarr.push(["duration", 'DESC'])
             }
 
-            let songs = await Song.findAll({where:filter,order:orderarr,limit,offset})
+            let songs = await Song.findAll({
+                where:filter,
+                order:orderarr,
+                limit,
+                offset
+            })
             
             return res.json(songs)
+
         }catch(e){
             return next(ApiError.bedRequest(e.message))
         }

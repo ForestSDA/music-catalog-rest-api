@@ -1,9 +1,9 @@
 const {Author} = require('../models/models')
 const ApiError = require('../error/ApiError')
 const {Sequelize} = require('sequelize')
+
 class authorController{
     async create(req,res,next) {
-
         try {
             const {name, website} = req.body
             const author = await Author.create({name, website})
@@ -11,32 +11,38 @@ class authorController{
         }catch (e){
             return next(ApiError.bedRequest(e.message))
         }
-
     }
 
     async get(req,res,next) {
         try{
-            let {name,limit,page,order} = req.query
-            page = page || 1
-            limit = limit || 10
+            let {name, limit, page, order} = req.query
             if(limit > 100){
                 return res.json(null)
             }
+
+            page = page || 1
+            limit = limit || 10
             let offset = page * limit - limit
 
             let filter = {}
             if(name){
                 filter.name = {[Sequelize.Op.iLike]:name}
             }
-            console.log(filter)
+
             let orderarr = []
             if(order == 'name'){
                 orderarr.push(['name', 'ASC'])
             }
 
-            let names = await Author.findAll({where:filter,order:orderarr,limit,offset})
+            let names = await Author.findAll({
+                where:filter,
+                order:orderarr,
+                limit,
+                offset
+            })
 
             return res.json(names)
+            
         }catch(e){
             return next(ApiError.bedRequest(e.message))
         }
