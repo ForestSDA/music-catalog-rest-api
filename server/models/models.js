@@ -4,15 +4,15 @@ const {DataTypes} = require('sequelize')
 const Author = sequelize.define('author',{
     id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name:{type: DataTypes.STRING, allowNull: false},
-    website:{type: DataTypes.STRING, allowNull: true},
+    website:{type: DataTypes.STRING, allowNull: true}
 })
 
 const Song = sequelize.define('song',{
     id:{type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    authorId:{type: DataTypes.INTEGER, primaryKey: true, allowNull: true},
+    authorId:{type: DataTypes.INTEGER, primaryKey: true, allowNull: false},
     title:{type: DataTypes.STRING, allowNull: false},
     duration:{type: DataTypes.TIME, allowNull: false},
-    genre:{type: DataTypes.STRING, allowNull: false},
+    genre:{type: DataTypes.STRING, allowNull: false}
 })
 
 Author.hasMany(Song,{onDelete:'CASCADE'})
@@ -20,5 +20,5 @@ Song.belongsTo(Author)
 
 module.exports = {
     Author,
-    Song,
+    Song
 }

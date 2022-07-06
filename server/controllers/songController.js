@@ -17,7 +17,7 @@ class songController{
         try{
             let {title, authorId, genre, limit, page, order} = req.query
             if(limit > 100){
-                return res.json(null)
+                return res.json('"limit" не может быть больше 100')
             }
             
             page = page || 1
@@ -69,7 +69,7 @@ class songController{
                 title: title,
                 duration: duration,
                 genre: genre },
-                { where:{id:id}}
+                {where:{id:id}}
             )
             let songs = await Song.findAll({where: {id}})
             return res.json(songs)
@@ -78,10 +78,9 @@ class songController{
         }
     }
 
-    async delete(req,res,next) {
+    async delete(req,res,next){
         try{
-            const{id} = req.query
-
+            const id = req.params.id
             let songs = await Song.destroy({ where: {id}})
             if(songs == 0){
                 return res.json('Не удалось удалить песню с id: ' + id)

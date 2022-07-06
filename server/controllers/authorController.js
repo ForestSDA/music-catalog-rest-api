@@ -17,7 +17,7 @@ class authorController{
         try{
             let {name, limit, page, order} = req.query
             if(limit > 100){
-                return res.json(null)
+                return res.json('"limit" не может быть больше 100')
             }
 
             page = page || 1
@@ -56,7 +56,7 @@ class authorController{
                 name: name,
                 website: website
                 },
-                { where:{id:id}}
+                {where:{id:id}}
             )
             let names = await Author.findAll({where: {id}})
             return res.json(names)
@@ -67,7 +67,7 @@ class authorController{
 
     async delete(req,res,next) {
         try {
-            const {id} = req.query
+            const id = req.params.id
  
             let names = await Author.destroy({ where: {id}})
             if(names == 0){

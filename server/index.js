@@ -20,11 +20,9 @@ const start = async () => {
         await sequelize.authenticate()
         await  sequelize.sync()
         app.listen(PORT, () => console.log('Server start on port ' + PORT))
-
     }catch(error){
         console.log(error)
     }
-
-
 }
+
 start()
