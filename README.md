@@ -334,13 +334,13 @@ http://localhost:5000/api/song?id=5&authorId=3&title=Cadillac&duration=00:03:11&
 
 `DELETE`
 
-http://localhost:5000/api/song?id=5
+http://localhost:5000/api/song/5
 
 Ответ:
 ```
 "Удалил песню с id: 5"
 ```
-http://localhost:5000/api/author?id=3
+http://localhost:5000/api/author/3
 
 Ответ:
 ```
